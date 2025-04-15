@@ -41,6 +41,10 @@ async def on_message(message):
 
     if message.content.startswith('$players'):
         players = get_online_players()[0]
+        succ = get_online_players()[1]
+        if (not succ):
+            await message.channel.send('❌ Error fetching mcsrvstat api.')
+            return
         if players:
             await message.channel.send(f'Online players on MC server are: {", ".join(players)}')
         else:
