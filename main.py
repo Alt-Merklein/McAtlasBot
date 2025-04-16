@@ -3,9 +3,11 @@ from dotenv import load_dotenv
 import os
 import requests
 import asyncio
-
+from flask import Flask
+import threading
 load_dotenv()
 
+app = Flask("McAtlasBot")
 server_name = os.getenv('SERVER')
 intents = discord.Intents.default()
 intents.message_content = True
@@ -76,4 +78,19 @@ async def check_new_players():
             online_players_old = current_players
         await asyncio.sleep(60)  # wait 5 minutes
 
-client.run(os.getenv('TOKEN'))
+@app.route('/')
+def hello():
+    return "Hello from McAtlasBot!"
+
+def run_flask():
+    app.run(host='0.0.0.0', port=5000) 
+
+def run_bot():
+    client.run(os.getenv('TOKEN'))
+
+if __name__ == "__main__":
+    
+    threading.Thread(target=run_flask).start()
+    
+    # Start the Discord bot
+    run_bot()
