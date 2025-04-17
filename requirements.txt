@@ -2,3 +2,4 @@ discord.py
 dotenv
 requests
 flask
+pymongo
